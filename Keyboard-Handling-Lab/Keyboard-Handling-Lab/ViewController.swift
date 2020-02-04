@@ -22,12 +22,25 @@ class ViewController: UIViewController {
     
     private var keyboardIsVisible = false
     
+    private lazy var tapGesture: UITapGestureRecognizer = {
+       let gesture = UITapGestureRecognizer()
+        gesture.addTarget(self, action: #selector(tapActivated))
+        return gesture
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         registerForKeyboardNotifs()
         usernameText.delegate = self
         passwordText.delegate = self
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func tapActivated() {
+        usernameText.resignFirstResponder()
+        passwordText.resignFirstResponder()
+        reset()
     }
 
     private func registerForKeyboardNotifs() {
